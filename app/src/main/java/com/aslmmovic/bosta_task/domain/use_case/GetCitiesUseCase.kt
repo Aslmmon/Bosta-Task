@@ -5,11 +5,6 @@ import com.aslmmovic.bosta_task.domain.repository.CitiesRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-//class GetCitiesUseCase @Inject constructor(private val repository: CitiesRepository) {
-//    suspend operator fun invoke(countryId: String): Result<List<DistrictWithCity>> {
-//        return repository.getCitiesAndDistricts(countryId)
-//    }
-//}
 
 interface GetCitiesUseCase {
     suspend operator fun invoke(countryId: String): Result<List<DistrictWithCity>>
