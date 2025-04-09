@@ -8,7 +8,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class ErrorMessageProvider @Inject constructor(
+open class ErrorMessageProvider @Inject constructor(
     @ApplicationContext private val context: Context // Inject Context
 ) {
 

@@ -91,7 +91,9 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.mockito.kotlin.v400)
     testImplementation(libs.kotlinx.coroutines.test.v173)
-    testImplementation(libs.truth) // Optional, but recommended
+    testImplementation(libs.truth)
+    testImplementation (libs.turbine)
+
     // Hilt Testing
     androidTestImplementation(libs.hilt.android.testing) // Or the latest Hilt version
     kaptAndroidTest(libs.hilt.android.compiler.v2511) // Or the latest Hilt version

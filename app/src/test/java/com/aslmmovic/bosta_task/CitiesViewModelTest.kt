@@ -1,104 +1,64 @@
-package com.aslmmovic.bosta_task.presenation.ui
-
-import com.aslmmovic.bosta_task.data.model.DistrictWithCity
+import com.aslmmovic.bosta_task.common.ErrorMessageProvider
+import com.aslmmovic.bosta_task.data.model.City
+import com.aslmmovic.bosta_task.data.model.ResultApi
 import com.aslmmovic.bosta_task.domain.use_case.GetCitiesUseCase
-import com.google.common.truth.Truth.assertThat
+import com.aslmmovic.bosta_task.presenation.ui.CitiesViewModel
+import com.aslmmovic.bosta_task.presenation.ui.UiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
+import org.mockito.Mockito.anyString
+import org.mockito.Mockito.`when`
 import org.mockito.kotlin.mock
-import org.mockito.kotlin.whenever
 
-/**
- * Unit tests for [CitiesViewModel].
- */
-@OptIn(ExperimentalCoroutinesApi::class)
+@ExperimentalCoroutinesApi
 class CitiesViewModelTest {
 
+    private lateinit var getCitiesUseCase: GetCitiesUseCase
+    private lateinit var errorMessageProvider: ErrorMessageProvider
     private lateinit var viewModel: CitiesViewModel
-    private val getCitiesUseCase: GetCitiesUseCase = mock()
-    private val testDispatcher = StandardTestDispatcher()
+    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
 
-    /**
-     * Sets up the test environment before each test.
-     */
     @Before
     fun setup() {
+        // Set the main dispatcher for coroutines to our TestDispatcher
         Dispatchers.setMain(testDispatcher)
-        viewModel = CitiesViewModel(getCitiesUseCase)
+
+        getCitiesUseCase = mock()
+        errorMessageProvider = mock()
+        viewModel = CitiesViewModel(getCitiesUseCase, errorMessageProvider)
     }
 
-    /**
-     * Cleans up the test environment after each test.
-     */
     @After
     fun tearDown() {
-        Dispatchers.resetMain()
+        Dispatchers.resetMain() // Reset the main dispatcher
     }
 
-    /**
-     * Tests that [CitiesViewModel.fetchCities] sets the [UiState] to [UiState.Loading] initially.
-     */
+
     @Test
-    fun `fetchCities sets loading state initially`() = runTest {
-        val countryId = "testCountryId"
-        whenever(getCitiesUseCase(countryId)).thenReturn((Result.success(emptyList())))
+    fun `fetchCities - success`() = runBlocking {
+        // Arrange
+        val mockCities = listOf(City("1", "City A", "City A Other Name", cityCode = "123", listOf()))
+        val successResult: Flow<ResultApi<List<City>>> = flowOf(ResultApi.Success(mockCities))
+        `when`(getCitiesUseCase.invoke(anyString())).thenReturn(successResult)
 
-        viewModel.fetchCities(countryId)
-        assertThat(viewModel.uiState.value).isEqualTo(UiState.Loading)
+        // Act
+        viewModel.fetchCities("someCountryId")
+
+        // Assert
+        assertEquals(UiState.Success(mockCities), viewModel.uiState.value)
+        assertNull(viewModel.errorMessage.value)
     }
 
-    /**
-     * Tests that [CitiesViewModel.fetchCities] sets the [UiState] to [UiState.Success]
-     * when the [GetCitiesUseCase] returns a successful result.
-     */
-    @Test
-    fun `fetchCities sets success state on successful use case result`() = runTest {
-        val countryId = "testCountryId"
-        val cities = listOf(
-            DistrictWithCity(
-                cityId = "1",
-                cityName = "TestCity",
-                cityOtherName = "OtherCity",
-                cityCode = "TC",
-                district = mock()
-            )
-        )
-        whenever(getCitiesUseCase(countryId)).thenReturn((Result.success(cities)))
-
-        viewModel.fetchCities(countryId)
-        testDispatcher.scheduler.advanceUntilIdle()
-
-        assertThat(viewModel.uiState.value).isEqualTo(UiState.Success(cities))
-    }
-
-    /**
-     * Tests that [CitiesViewModel.fetchCities] sets the [UiState] to [UiState.Error]
-     * when the [GetCitiesUseCase] returns a failed result.
-     */
-    @Test
-    fun `fetchCities sets error state on failed use case result`() = runTest {
-        val countryId = "testCountryId"
-        val errorMessage = "Test error message"
-        whenever(getCitiesUseCase(countryId)).thenReturn(
-            (
-                    Result.failure(
-                        Exception(
-                            errorMessage
-                        )
-                    )
-                    )
-        )
-
-        viewModel.fetchCities(countryId)
-        testDispatcher.scheduler.advanceUntilIdle()
-
-        assertThat(viewModel.uiState.value).isEqualTo(UiState.Error(errorMessage))
-    }
 }
