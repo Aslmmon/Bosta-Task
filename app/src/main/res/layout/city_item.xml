@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:clipToPadding="false"
+    android:clipChildren="false"
     android:padding="16dp">
 
     <LinearLayout
@@ -28,14 +30,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/arrow_down_float"
-            android:contentDescription="Expand/Collapse" />
+            android:contentDescription="@string/expand_collapse" />
+
+
 
     </LinearLayout>
 
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:background="@color/black"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/districtsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
+        android:descendantFocusability="blocksDescendants"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/district_item" />

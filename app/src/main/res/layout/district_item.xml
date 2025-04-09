@@ -4,9 +4,7 @@
     android:id="@+id/districtNameTextView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="32dp"
     android:paddingTop="8dp"
-    android:paddingEnd="16dp"
     android:paddingBottom="8dp"
     android:textSize="16sp"
     tools:text="District Name" />

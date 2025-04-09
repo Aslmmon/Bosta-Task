@@ -34,11 +34,8 @@ class CitiesAdapter :
          * @param newItem The new city item.
          * @return True if the items are the same, false otherwise.
          */
-        override fun areItemsTheSame(
-            oldItem: City,
-            newItem: City
-        ): Boolean {
-            return oldItem == newItem
+        override fun areItemsTheSame(oldItem: City, newItem: City): Boolean {
+            return oldItem.cityId == newItem.cityId // Assuming cityId is unique
         }
 
         /**
@@ -139,15 +136,13 @@ class CitiesAdapter :
         fun bind(city: City) {
             cityNameTextView.text = city.cityName
 
-//            districtsAdapter = DistrictsAdapter(city.districts)
-//            districtsRecyclerView.adapter = districtsAdapter
-
             if (!::districtsAdapter.isInitialized) {
                 districtsAdapter = DistrictsAdapter(city.districts)
                 districtsRecyclerView.adapter = districtsAdapter
             } else {
                 districtsAdapter.districts = city.districts // Update adapter's data (if needed)
-                districtsAdapter.notifyDataSetChanged() // Notify the nested adapter
+                districtsAdapter.notifyDataSetChanged()      // Notify the adapter!
+
             }
 
             val isExpanded = city.isExpanded
@@ -156,8 +151,15 @@ class CitiesAdapter :
             expandCollapseIcon.setImageResource(if (isExpanded) R.drawable.arrow_up else R.drawable.arrow_down)
 
             itemView.debouncedClick {
-                city.isExpanded = !city.isExpanded
-                notifyItemChanged(adapterPosition)
+                if (city.districts.isNotEmpty()){
+                    city.isExpanded = !city.isExpanded
+                    notifyItemChanged(adapterPosition)
+//                    submitList(differ.currentList.toMutableList().apply {
+//                        set(adapterPosition, city.copy(isExpanded = city.isExpanded))
+//                    })
+                }
+
+
             }
         }
     }
