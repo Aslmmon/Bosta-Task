@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aslmmovic.bosta_task.R
+import com.aslmmovic.bosta_task.common.debouncedClick
 import com.aslmmovic.bosta_task.data.model.City
 import com.aslmmovic.bosta_task.data.model.District
 
@@ -37,7 +38,7 @@ class CitiesAdapter :
             oldItem: City,
             newItem: City
         ): Boolean {
-            return oldItem.cityId == newItem.cityId
+            return oldItem == newItem
         }
 
         /**
@@ -138,15 +139,23 @@ class CitiesAdapter :
         fun bind(city: City) {
             cityNameTextView.text = city.cityName
 
-            districtsAdapter = DistrictsAdapter(city.districts)
-            districtsRecyclerView.adapter = districtsAdapter
+//            districtsAdapter = DistrictsAdapter(city.districts)
+//            districtsRecyclerView.adapter = districtsAdapter
+
+            if (!::districtsAdapter.isInitialized) {
+                districtsAdapter = DistrictsAdapter(city.districts)
+                districtsRecyclerView.adapter = districtsAdapter
+            } else {
+                districtsAdapter.districts = city.districts // Update adapter's data (if needed)
+                districtsAdapter.notifyDataSetChanged() // Notify the nested adapter
+            }
 
             val isExpanded = city.isExpanded
 
             districtsRecyclerView.visibility = if (isExpanded) View.VISIBLE else View.GONE
             expandCollapseIcon.setImageResource(if (isExpanded) R.drawable.arrow_up else R.drawable.arrow_down)
 
-            itemView.setOnClickListener {
+            itemView.debouncedClick {
                 city.isExpanded = !city.isExpanded
                 notifyItemChanged(adapterPosition)
             }
@@ -156,7 +165,7 @@ class CitiesAdapter :
     /**
      * Adapter for displaying a list of districts within a city item.
      */
-    class DistrictsAdapter(private val districts: List<District>) :
+    class DistrictsAdapter(var districts: List<District>) :
         RecyclerView.Adapter<DistrictsAdapter.DistrictViewHolder>() {
 
         /**

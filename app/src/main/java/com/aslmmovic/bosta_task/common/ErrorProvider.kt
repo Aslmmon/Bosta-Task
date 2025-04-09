@@ -16,7 +16,7 @@ class ErrorMessageProvider @Inject constructor(
         return when (exception) {
             is IOException -> context.getString(R.string.network_error) + " " + exception.message
             is JsonParseException -> context.getString(R.string.data_parsing_error)
-            is HttpException -> context.getString(R.string.server_error) + " Code: " + exception.code()
+            is HttpException -> context.getString(R.string.server_error) + " ${context.getString(R.string.code)} " + exception.code()
             else -> context.getString(R.string.unknown_error)
         }
     }
