@@ -11,7 +11,8 @@ data class City(
     val cityName: String,
     val cityOtherName: String,
     val cityCode: String,
-    val districts: List<District>
+    val districts: List<District>,
+    var isExpanded:Boolean=false
 )
 
 data class District(
