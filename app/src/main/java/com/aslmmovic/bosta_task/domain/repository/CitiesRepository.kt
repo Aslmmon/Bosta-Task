@@ -1,7 +1,7 @@
 package com.aslmmovic.bosta_task.domain.repository
 
-import com.aslmmovic.bosta_task.data.model.City
+import kotlinx.coroutines.flow.Flow
 
 interface CitiesRepository {
-    suspend fun getCitiesAndDistricts(countryId: String): Result<List<City>>
+    suspend fun getCitiesAndDistricts(countryId: String): Flow<*>
 }

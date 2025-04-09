@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Bosta_Task</string>
     <string name="error_loading_data">"Erorr is "</string>
+    <string name="network_error">Network error. Please check your connection.</string>
+    <string name="data_parsing_error">Data parsing error.</string>
+    <string name="server_error">Server error. Please try again later.</string>
+    <string name="unknown_error">Failed to load data. Please try again.</string>
+
 </resources>

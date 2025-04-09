@@ -26,11 +26,3 @@ data class District(
     val dropOffAvailability: Boolean,
     val coverage: String
 )
-
-data class DistrictWithCity(
-    val cityId: String,
-    val cityName: String,
-    val cityOtherName: String,
-    val cityCode: String,
-    val district: District
-)

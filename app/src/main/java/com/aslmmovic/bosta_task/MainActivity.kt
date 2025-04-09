@@ -15,6 +15,7 @@ import com.aslmmovic.bosta_task.presenation.ui.CitiesAdapter
 import com.aslmmovic.bosta_task.presenation.ui.CitiesViewModel
 import com.aslmmovic.bosta_task.presenation.ui.UiState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
@@ -47,6 +48,8 @@ class MainActivity : AppCompatActivity() {
         initializeViews()
         setupRecyclerView()
         observeUiState()
+        observeErrorMessage() // Observe the new errorMessage flow
+
         viewModel.fetchCities("60e4482c7cb7d4bc4849c4d5")
     }
 
@@ -74,11 +77,11 @@ class MainActivity : AppCompatActivity() {
      */
     private fun observeUiState() {
         lifecycleScope.launch {
-            viewModel.uiState.observe(this@MainActivity) { state ->
+            viewModel.uiState.collect { state ->
                 when (state) {
                     is UiState.Loading -> handleLoadingState()
                     is UiState.Success -> handleSuccessState(state)
-                    is UiState.Error -> handleErrorState(state)
+                    is UiState.Error -> handleErrorState()
                 }
             }
         }
@@ -113,11 +116,23 @@ class MainActivity : AppCompatActivity() {
      *
      * @param state The [UiState.Error] state containing the error message.
      */
-    private fun handleErrorState(state: UiState.Error) {
+    private fun handleErrorState() {
         progressBar.visibility = View.GONE
         recyclerView.visibility = View.GONE
         errorTextView.visibility = View.VISIBLE
-        errorTextView.text = getString(R.string.error_loading_data) + ": " + state.message
+    }
+
+    private fun observeErrorMessage() {
+        lifecycleScope.launch {
+            viewModel.errorMessage.collectLatest { message ->
+                if (message != null) {
+                    errorTextView.visibility = View.VISIBLE
+                    errorTextView.text = message
+                } else {
+                    errorTextView.visibility = View.GONE
+                }
+            }
+        }
     }
 
 }
