@@ -50,7 +50,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/districtsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:descendantFocusability="blocksDescendants"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

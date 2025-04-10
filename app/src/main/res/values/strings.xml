@@ -9,5 +9,6 @@
     <string name="choose_the_delivery_area">Choose the delivery area</string>
     <string name="city_area">City/Area</string>
     <string name="expand_collapse">Expand/Collapse</string>
+    <string name="uncoverd_title">Uncoverd</string>
 
 </resources>

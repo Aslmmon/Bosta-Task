@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/districtNameTextView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
-    style="@style/CaptionText"
-    android:paddingBottom="8dp"
-    tools:text="District Name" />
+    android:orientation="horizontal"
+    android:background="@color/background_color"
+
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/districtNameTextView"
+        style="@style/CaptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_weight="1"
+        android:paddingBottom="8dp"
+        tools:text="District Name" />
+
+    <TextView
+        android:id="@+id/districtCoverageTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/uncoverd_title"
+        android:layout_weight="0.1"
+        style="@style/CoverageText"
+        tools:text="District Name"
+        />
+
+
+</LinearLayout>

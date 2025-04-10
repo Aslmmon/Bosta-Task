@@ -1,11 +1,13 @@
 package com.aslmmovic.bosta_task.presenation.ui
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -35,7 +37,7 @@ class CitiesAdapter :
          * @return True if the items are the same, false otherwise.
          */
         override fun areItemsTheSame(oldItem: City, newItem: City): Boolean {
-            return oldItem.cityId == newItem.cityId // Assuming cityId is unique
+            return oldItem.cityId == newItem.cityId
         }
 
         /**
@@ -133,6 +135,7 @@ class CitiesAdapter :
          *
          * @param city The city data to display.
          */
+        @SuppressLint("NotifyDataSetChanged")
         fun bind(city: City) {
             cityNameTextView.text = city.cityName
 
@@ -140,23 +143,27 @@ class CitiesAdapter :
                 districtsAdapter = DistrictsAdapter(city.districts)
                 districtsRecyclerView.adapter = districtsAdapter
             } else {
-                districtsAdapter.districts = city.districts // Update adapter's data (if needed)
-                districtsAdapter.notifyDataSetChanged()      // Notify the adapter!
+                districtsAdapter.districts = city.districts
+                districtsAdapter.notifyDataSetChanged()
 
             }
-
             val isExpanded = city.isExpanded
-
             districtsRecyclerView.visibility = if (isExpanded) View.VISIBLE else View.GONE
             expandCollapseIcon.setImageResource(if (isExpanded) R.drawable.arrow_up else R.drawable.arrow_down)
+            onClickListenerForCity(city)
+        }
 
+        private fun CityViewHolder.onClickListenerForCity(city: City) {
             itemView.debouncedClick {
-                if (city.districts.isNotEmpty()){
-                    city.isExpanded = !city.isExpanded
-                    notifyItemChanged(adapterPosition)
-//                    submitList(differ.currentList.toMutableList().apply {
-//                        set(adapterPosition, city.copy(isExpanded = city.isExpanded))
-//                    })
+                if (city.districts.isNotEmpty()) {
+                    val newList = differ.currentList.mapIndexed { index, item ->
+                        if (index == adapterPosition) {
+                            item.copy(isExpanded = !item.isExpanded)
+                        } else {
+                            item
+                        }
+                    }
+                    submitList(newList)
                 }
 
 
@@ -209,6 +216,8 @@ class CitiesAdapter :
         inner class DistrictViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val districtNameTextView: TextView =
                 itemView.findViewById(R.id.districtNameTextView)
+            private val districtCoverageTextView: TextView =
+                itemView.findViewById(R.id.districtCoverageTextView)
 
             /**
              * Binds the district data to the ViewHolder.
@@ -216,6 +225,7 @@ class CitiesAdapter :
              * @param district The district data to display.
              */
             fun bind(district: District) {
+                districtCoverageTextView.isVisible = !district.pickupAvailability
                 districtNameTextView.text = district.districtName
             }
         }
