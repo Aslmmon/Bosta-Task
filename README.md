@@ -93,7 +93,7 @@ To get started with this project, follow these steps:
 
 ## 📥 Download the Release APK
 
-You can download the latest release APK [here](https://github.com/Aslmmon/Bosta-Task/releases/download/v1.0/app-release.apk).
+You can download the latest release APK [here](https://github.com/Aslmmon/Bosta-Task/releases/download/1/app-release.apk).
 
 **Installation Instructions:**
 
