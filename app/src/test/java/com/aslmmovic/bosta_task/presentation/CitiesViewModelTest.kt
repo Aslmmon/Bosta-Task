@@ -1,3 +1,5 @@
+package com.aslmmovic.bosta_task.presentation
+
 import com.aslmmovic.bosta_task.common.ErrorMessageProvider
 import com.aslmmovic.bosta_task.data.model.City
 import com.aslmmovic.bosta_task.data.model.ResultApi
@@ -34,7 +36,6 @@ class CitiesViewModelTest {
     fun setup() {
         // Set the main dispatcher for coroutines to our TestDispatcher
         Dispatchers.setMain(testDispatcher)
-
         getCitiesUseCase = mock()
         errorMessageProvider = mock()
         viewModel = CitiesViewModel(getCitiesUseCase, errorMessageProvider)
