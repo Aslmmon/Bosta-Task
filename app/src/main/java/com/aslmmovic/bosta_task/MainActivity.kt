@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.aslmmovic.bosta_task.data.model.City
 import com.aslmmovic.bosta_task.presenation.ui.CitiesAdapter
 import com.aslmmovic.bosta_task.presenation.ui.CitiesViewModel
@@ -70,6 +71,8 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         citiesAdapter = CitiesAdapter()
         recyclerView.adapter = citiesAdapter
+        (recyclerView.layoutManager as LinearLayoutManager).initialPrefetchItemCount
+        recyclerView.setItemViewCacheSize(10)
     }
 
     /**

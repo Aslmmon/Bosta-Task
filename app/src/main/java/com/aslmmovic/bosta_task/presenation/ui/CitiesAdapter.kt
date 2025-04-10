@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aslmmovic.bosta_task.R
 import com.aslmmovic.bosta_task.common.debouncedClick
@@ -142,6 +143,8 @@ class CitiesAdapter :
             if (!::districtsAdapter.isInitialized) {
                 districtsAdapter = DistrictsAdapter(city.districts)
                 districtsRecyclerView.adapter = districtsAdapter
+                (districtsRecyclerView.layoutManager as LinearLayoutManager).initialPrefetchItemCount
+                districtsRecyclerView.setItemViewCacheSize(10)
             } else {
                 districtsAdapter.districts = city.districts
                 districtsAdapter.notifyDataSetChanged()
