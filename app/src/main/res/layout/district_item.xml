@@ -4,7 +4,7 @@
     android:id="@+id/districtNameTextView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="8dp"
+    android:padding="10dp"
+    style="@style/CaptionText"
     android:paddingBottom="8dp"
-    android:textSize="16sp"
     tools:text="District Name" />

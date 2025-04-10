@@ -49,7 +49,8 @@ class CitiesViewModelTest {
     @Test
     fun `fetchCities - success`() = runBlocking {
         // Arrange
-        val mockCities = listOf(City("1", "City A", "City A Other Name", cityCode = "123", listOf()))
+        val mockCities =
+            listOf(City("1", "City A", "City A Other Name", cityCode = "123", listOf()))
         val successResult: Flow<ResultApi<List<City>>> = flowOf(ResultApi.Success(mockCities))
         `when`(getCitiesUseCase.invoke(anyString())).thenReturn(successResult)
 

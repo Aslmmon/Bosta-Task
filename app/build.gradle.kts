@@ -10,7 +10,7 @@ plugins {
 android {
     namespace = "com.aslmmovic.bosta_task"
     compileSdk = 35
-    android.buildFeatures.buildConfig =true
+    android.buildFeatures.buildConfig = true
 
     defaultConfig {
         applicationId = "com.aslmmovic.bosta_task"
@@ -26,7 +26,10 @@ android {
 
         getByName("release") {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             buildConfigField("String", "BASE_URL", "\"https://production-app.bosta.co/api/v2/\"")
         }
         getByName("debug") {
@@ -92,7 +95,7 @@ dependencies {
     testImplementation(libs.mockito.kotlin.v400)
     testImplementation(libs.kotlinx.coroutines.test.v173)
     testImplementation(libs.truth)
-    testImplementation (libs.turbine)
+    testImplementation(libs.turbine)
 
     // Hilt Testing
     androidTestImplementation(libs.hilt.android.testing) // Or the latest Hilt version
