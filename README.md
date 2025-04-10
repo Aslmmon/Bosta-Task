@@ -90,6 +90,22 @@ To get started with this project, follow these steps:
 * JUnit
 * AndroidX Libraries
 
+
+## 📥 Download the Release APK
+
+You can download the latest release APK [here](https://github.com/Aslmmon/Bosta-Task/releases/download/v1.0/app-release.apk).
+
+**Installation Instructions:**
+
+1.  Download the APK file to your Android device.
+2.  If prompted, enable "Install from Unknown Sources" in your device settings.
+3.  Open the APK file to install the app.
+
+## ⚠️ Warning
+
+This is a release APK for testing purposes. The app might not be stable and could contain bugs.
+
+
 ## 🤝 Contributing
 
 Contributions are welcome! Feel free to submit pull requests or open issues.
