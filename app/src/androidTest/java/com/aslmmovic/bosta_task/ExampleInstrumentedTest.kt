@@ -22,3 +22,18 @@ class ExampleInstrumentedTest {
         assertEquals("com.aslmmovic.bosta_task", appContext.packageName)
     }
 }
+
+@RunWith(AndroidJUnit4::class)
+class BaselineProfileGenerator {
+    @get:Rule
+    val rule = BaselineProfileRule()
+
+    @Test
+    fun generateBaselineProfile() {
+        rule.collect(packageName = "com.aslmmovic.bosta_task") {
+            // Define the code paths to include in the baseline profile
+            startActivityAndWait()
+            // Add more interactions to profile
+        }
+    }
+}

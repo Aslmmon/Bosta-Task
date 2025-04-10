@@ -25,12 +25,13 @@ android {
     buildTypes {
 
         getByName("release") {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "BASE_URL", "\"https://production-app.bosta.co/api/v2/\"")
+            buildConfigField("String", "BASE_URL", "\"https://stg-app.bosta.co/api/v2/\"")
+            signingConfig = signingConfigs.getByName("debug")
         }
         getByName("debug") {
             buildConfigField("String", "BASE_URL", "\"https://stg-app.bosta.co/api/v2/\"")
@@ -57,7 +58,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.benchmark.common)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -71,8 +72,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     // Dagger 2 / Hilt
-    implementation(libs.hilt.android.v2511) // Or the latest Hilt version
-    kapt(libs.hilt.android.compiler.v2511) // Or the latest Hilt version
+    implementation(libs.hilt.android.v2511)
+    kapt(libs.hilt.android.compiler.v2511)
 
     // ViewModel and LiveData
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -81,25 +82,14 @@ dependencies {
     // RecyclerView
     implementation(libs.androidx.recyclerview)
 
-    // Gson
-    implementation(libs.gson)
-
-
     // Unit Testing
-    testImplementation(libs.junit)
-    testImplementation(libs.mockito.core)
     testImplementation(libs.mockito.kotlin)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.androidx.core.testing)
-    testImplementation(libs.junit)
-    testImplementation(libs.mockito.kotlin.v400)
-    testImplementation(libs.kotlinx.coroutines.test.v173)
-    testImplementation(libs.truth)
-    testImplementation(libs.turbine)
 
     // Hilt Testing
-    androidTestImplementation(libs.hilt.android.testing) // Or the latest Hilt version
-    kaptAndroidTest(libs.hilt.android.compiler.v2511) // Or the latest Hilt version
+    androidTestImplementation(libs.hilt.android.testing)
+    kaptAndroidTest(libs.hilt.android.compiler.v2511)
 
 
 }
