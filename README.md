@@ -52,15 +52,16 @@ Here are some screenshots of the application:
 
 ### Cities List View
 
-![Cities List](screenshots/cities_list.png)
+<img src="screenshots/city_lists.png" width="400" alt="Cities List">
 
 ### Expanded City View
 
-![Expanded City](screenshots/expanded_city.png)
+<img src="screenshots/districts_list.png" width="400" alt="Cities List">
+
 
 ### Error State
 
-![Error State](screenshots/error_state.png)
+<img src="screenshots/error_view.png" width="400" alt="Cities List">
 
 ## 🛠️ Getting Started
 
